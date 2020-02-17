@@ -15,6 +15,7 @@
 void execute(char *command);
 int count_number_of_words(char *string);
 char** get_tokens_from_string(char *string);
+char *make_copy(char *string);
 
 // Driver code 
 int main() { 
@@ -60,7 +61,8 @@ int main() {
 }
 
 void execute(char *command) {
-    int number_of_tokens = count_number_of_words(command);
+    char *copy = make_copy(command);
+    int number_of_tokens = count_number_of_words(copy);
     char** arguments = malloc(sizeof(char*) * (number_of_tokens + 3));
     char** command_words = get_tokens_from_string(command);
     arguments[0] = "sh";
@@ -69,31 +71,37 @@ void execute(char *command) {
         arguments[i+2] = command_words[i];
     }
     arguments[number_of_tokens + 2] = NULL;
-    execv("sh", arguments);
+    printf("Before exec\n");
+    int res = execv("/bin/sh", arguments);
+    printf("%d\n", res);
+    free(copy);
 }
 
 int count_number_of_words(char *string) {
+    char *copy = make_copy(string);
     int word_counter = 0;
     char *pch;
     char *delimiters = " ,.-";
-    printf ("Splitting string \"%s\" into tokens:\n", string);
-    pch = strtok (string, delimiters);
+    printf ("Splitting string \"%s\" into tokens:\n", copy);
+    pch = strtok (copy, delimiters);
     while (pch != NULL)
     {
         word_counter++;
         printf ("%s\n",pch);
         pch = strtok (NULL, delimiters);
     }
+    free(copy);
     return word_counter;
 }
 
 char** get_tokens_from_string(char *string) {
-    int number_of_tokens = count_number_of_words(string);
+    char *copy = make_copy(string);
+    int number_of_tokens = count_number_of_words(copy);
     char **tokens = malloc(sizeof(char*) * number_of_tokens);
     char *pch;
     char *delimiters = " ,.-";
-    printf ("Splitting string \"%s\" into tokens:\n", string);
-    pch = strtok (string, delimiters);
+    printf ("Splitting string \"%s\" into tokens:\n", copy);
+    pch = strtok (copy, delimiters);
     int index_of_tokens = 0;
     while (pch != NULL)
     {
@@ -103,4 +111,11 @@ char** get_tokens_from_string(char *string) {
         pch = strtok (NULL, delimiters);
     }
     return tokens;
+}
+
+char *make_copy(char *string) {
+    int string_length = strlen(string);
+    char *copy = malloc(string_length + 1);
+    strcpy(copy, string);
+    return copy;
 }
