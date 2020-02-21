@@ -10,12 +10,12 @@ make compile
 ```
 
 ### Producer
-After running on consumers nodes `noded`.   
-To start consumers `iperf`
+You can start this part after running on consumers nodes program `noded`   
+To start on consumer nodes `iperf -c`
 ```
 ./run_parallel_consumer datagram_size result_file_name number_of_threads output_format
 ```
-Above line run on every consumer node number of threads processes of `iperf -c`. Every use anther port from 5200.   
+Above line run on every consumer node `number_of_threads` processes of `iperf -c`. Every use anther port from 5200.   
 Start test:
 ```
 ./run_parallel_sender bandwidth_of_single_thread datagram_size number_of_threads
