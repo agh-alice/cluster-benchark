@@ -11,6 +11,7 @@
   
 #define PORT    7070
 #define MAXLINE 1024 
+#define GROUP   "224.0.70.71"
   
 void execute(char *command);
 int count_number_of_words(char *string);
@@ -43,6 +44,17 @@ int main() {
     { 
         perror("bind failed"); 
         exit(EXIT_FAILURE); 
+    }
+    struct ip_mreq mreq;
+    mreq.imr_multiaddr.s_addr = inet_addr("224.0.70.71");
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    if (
+        setsockopt(
+            sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*) &mreq, sizeof(mreq)
+        ) < 0
+    ){
+        perror("setsockopt");
+        return 1;
     } 
       
     int len, n; 
