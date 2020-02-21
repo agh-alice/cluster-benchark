@@ -1,0 +1,6 @@
+# bandwidth packet_size ports_number
+LAST_PORT=$((5200+$3-1))
+for i in `seq 5200 $LAST_PORT`
+do
+	./infiniband_sender 5 $i $1 $2
+done

@@ -1,0 +1,5 @@
+# arguments:
+# $1- prefix of data files and name of csv file
+./remote-multicast-executor/client.py echo "Starting harvesting"
+./cleaner $1
+./merger $1
