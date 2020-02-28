@@ -1,2 +1,0 @@
-# port datagram_size file_name output_format
-./remote-multicast-executor/client.py iperf -s -u -B 224.0.70.71 -i 1 -p $1 -l $2 -y $4 " > ${3}_${1} &"
